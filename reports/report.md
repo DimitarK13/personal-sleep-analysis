@@ -2,23 +2,29 @@
 
 ## 1. Project Overview
 
-<!-- Which data, what scope, and what the analysis is ultimately for. -->
+This project aims to investigate sleeping patterns using my personal sleep data, recorded with an Apple Watch, over the span of 418 days. The analysis is ultimately to improve day-to-day sleep.
 
 ## 2. Problem Statement
 
-<!-- What problem does this analysis help solve, and for whom? -->
+This analysis is a personal project, to help me understand better my sleeping habits. If I can understand better when I tend to wake up more, I can ultimately take some actions in order to prevent them.
 
 ## 3. Objectives
 
-<!-- 3–6 concrete objectives. -->
+- Discover during which seasons I tend to wake up more.
+- Discover during which parts of the night I tend to wake up more.
+- Measure how bedtime, and how consistent it is from night to night, relates to my sleep score and to the amount of deep and REM sleep.
+- Identify which part of the sleep score (duration, bedtime or interruptions) most often pulls it down.
 
 ## 4. Research Questions
 
-<!-- The questions the analysis answers. Keep them in sync with the README. -->
+- Is there a relation between seasons and good sleep?
+- Does going to bed early result in a better sleep?
+- Are there patterns in wake ups during the night?
 
 ## 5. Hypotheses
 
-<!-- What you expect to find before looking at the data, so you can check yourself afterwards. -->
+- Worse overall sleeping scores during the summer.
+- Going to bed later results to better sleep.
 
 ## 6. Data Quality Assessment
 

@@ -2,7 +2,7 @@
 
 ## Overview
 
-Analyzing personal sleep patterns and scores
+Analyzing personal sleep patterns and scores.
 
 ## Setup
 
@@ -15,13 +15,15 @@ python scripts/profile_data.py    # writes a data-quality profile to reports/dat
 
 ## Dataset
 
-- Source: personal sleep data, _TODO_ (device/app and how it was exported). Put the exported files in `data/raw/`.
-- Coverage: _TODO_
-- Time period: _TODO_
+- Source: personal sleep data, tracked with Apple Watch Series 11, exported through Apple Health app.
+- Coverage: bedtime, wake up time, time asleep, time spent in each mode.
+- Time period: 19 September 2025 - 22 November 2026
 
 ## Research Questions
 
-- _TODO_
+- Is there a relation between seasons and good sleep?
+- Does going to bed early result in a better sleep?
+- Are there patterns in wake ups during the night?
 
 ## Technologies
 
