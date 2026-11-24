@@ -28,8 +28,11 @@ This analysis is a personal project, to help me understand better my sleeping ha
 
 ## 6. Data Quality Assessment
 
-<!-- Issues found in 01-initial-analysis (reports/data-profile.md is a starting point)
-     and how 02-data-preparation handled each one. -->
+- Dropped columns: bedtime_y, awake_min_y and notes, as they were either duplicate columns or too many missing values.
+- Renamed columns: bedtime_x to bedtime, awake_min_x to awake_min.
+- Dropped rows where interruption_pts and wake_ups are missing (2 rows).
+- Converted night, bedtime (former bedtime_x) and wake_time to datetime formats.
+- Converted wake_ups to integer (it was stored as float because of missing values).
 
 ## 7. Analysis
 
