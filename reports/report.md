@@ -57,4 +57,4 @@ The numbers and what they mean. Embed the chart:
 
 ## 9. Limitations
 
-<!-- What the data can't tell you: coverage gaps, missing variables, correlation vs. causation. -->
+- The data can't uncover causations for bad sleeping scores.
