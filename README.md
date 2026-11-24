@@ -25,6 +25,15 @@ python scripts/profile_data.py    # writes a data-quality profile to reports/dat
 - Does going to bed early result in a better sleep?
 - Are there patterns in wake ups during the night?
 
+## Key Findings
+
+- **Seasons:** no strong relation. Monthly average scores stay between 77 and 86, and the hypothesis of worse sleep in summer is not supported (June was the worst month, but July and August among the best).
+- **Bedtime:** going to bed early doesn't give a better sleep, but going to bed late gives a worse one. The best nights start between 22:30 and 23:30; after 00:30 the average score drops from about 83–86 to 68, mostly because of shorter and less regular sleep.
+- **Wake ups:** I wake up most early in the night, with a peak roughly 50 to 100 minutes after going to bed. 93% of wake ups last less than 5 minutes. The day of the week makes little difference.
+- **Sleep score:** interruptions are the biggest point loss on 79% of the nights, more than duration or bedtime consistency.
+
+The full analysis, charts and limitations are in the [report](reports/report.md).
+
 ## Technologies
 
 - Python

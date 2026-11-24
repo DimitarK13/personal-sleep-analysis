@@ -2,7 +2,7 @@
 
 ## 1. Project Overview
 
-This project aims to investigate sleeping patterns using my personal sleep data, recorded with an Apple Watch, over the span of 418 days. The analysis is ultimately to improve day-to-day sleep.
+This project aims to investigate sleeping patterns using my personal sleep data, recorded with an Apple Watch, over the span of 418 days (19 September 2025 to 22 November 2026). After cleaning, 415 nights are used for the seasonal analysis and 409 for the bedtime and wake up analyses (see Data Quality Assessment). The analysis is ultimately to improve day-to-day sleep.
 
 ## 2. Problem Statement
 
@@ -53,6 +53,8 @@ The average sleep score by month showed that both the lowest average and highest
 
 Summer and autumn seem to have the overall highest average scores, and there seems to be slight positive general trend, but it's hard to bring any conclusions with just one year of data.
 
+The dashed line in the chart is the average over all nights (81.5), so that every night counts the same and September 2025 (only 12 nights) doesn't weigh as much as a full month.
+
 ![Average Sleep Score by Month](../visualizations/average-sleep-score-by-month.png)
 
 #### Average Wake Ups by Month
@@ -65,7 +67,7 @@ With the amount of wake ups there doesn't seem to be any general trend.
 
 #### Bedtime (Before or After Midnight) by Month
 
-It seems that months where I go to bed after 00:00, I seem to be getting higher sleeping scores overall, with fewer wake ups.
+There is no clear link between late bedtimes and better sleep at month level. The four months with the most nights after midnight are mixed: November 2026 (19 nights, score 82.7) and August 2026 (9 nights, 83.2) score above the average of 81.5, while January 2026 (17 nights, 80.3) and December 2025 (10 nights, 78.2) score below it. Monthly averages also hide what happens on the late nights themselves, so the next question looks at this night by night.
 
 ![Bedtime (Before or After Midnight) by Month](../visualizations/bedtime-before-vs-after-midnight.png)
 
@@ -92,6 +94,14 @@ Time asleep has the strongest relation with bedtime (Spearman r = −0.34). It g
 Later bedtimes come with fewer wake ups in total (r = −0.24), but mostly because a shorter night has less time to wake up in; per hour asleep the relation is weak (r = −0.13). The share of deep (11–12%) and REM (23–24%) sleep is about the same for every bedtime. Later bedtimes only mean fewer minutes of each because the night is shorter.
 
 ![Time Asleep by Bedtime](../visualizations/time-asleep-by-bedtime.png)
+
+#### Bedtime Consistency
+
+Besides *when* I go to bed, I looked at how *consistent* that is: how many minutes my bedtime was off from my usual bedtime (`bedtime_dev_min`, available for 406 of the 409 nights). The sleep score can't be compared with this directly, because its bedtime points are calculated from this deviation, so I also used the score without the bedtime points (duration and interruptions, out of 70).
+
+With a bedtime within 30 minutes of my usual one the score is about 87.4, and with 60+ minutes off it is 70.0, but most of that gap is the bedtime points themselves. Without them the difference is much smaller (57.3 against 53.4 out of 70), and it comes mostly from duration: 8.0 hours asleep on consistent nights against 7.6 hours on irregular ones. Irregular nights don't have more wake ups (0.97 per hour against 1.09) or less deep sleep, and the share of REM sleep is the same (about 24%).
+
+Irregular bedtimes go both ways: of the 103 nights with 60+ minutes off, 38 have a bedtime after 00:30, but 26 have one before 22:30. Since late bedtimes come with shorter sleep, they probably explain part of the shorter sleep on irregular nights.
 
 ### Are there patterns in wake ups during the night?
 
@@ -121,7 +131,27 @@ The early-night peak is made up of these short wake ups. The longer ones are spr
 
 Saturday nights have the fewest wake ups (7.5 on average, 0.94 per hour asleep) and Monday nights the most (8.6, 1.11 per hour). The difference between the best and worst day is only about 1 wake up, while within each day the number varies by 3 to 4 from night to night (standard deviation), with around 58 nights per day. This difference is too small to call a pattern.
 
+### Which part of the sleep score pulls it down?
+
+The sleep score is made of three parts: duration (max 50 points), bedtime consistency (max 30) and interruptions (max 20). For each of the 409 nights I calculated how many points each part lost.
+
+On average a night loses 10.7 points on interruptions, against 4.0 on bedtime consistency and 3.4 on duration. Interruptions have the smallest maximum, yet I lose more than half of those points (53%) on an average night, against 13% for bedtime and 7% for duration.
+
+Interruptions are also the biggest loss on 321 of 407 nights (79%; the 2 nights without any lost points are left out), against 53 nights (13%) for bedtime consistency and 33 nights (8%) for duration. Duration and bedtime only become the main problem on unusual nights, like the late bedtimes after 00:30.
+
+![Biggest Point Loss per Night](../visualizations/biggest-point-loss-per-night.png)
+
 ## 8. Conclusions and Recommendations
+
+### Is there a relation between seasons and good sleep?
+
+There is no strong relation between the season and how well I sleep.
+
+- The monthly average scores are close together: from 76.9 to 86.1, with a standard deviation of only 2.6 points between months.
+- Winter is slightly worse: December 2025 (78.2) and January 2026 (80.3) are below the average, and February (81.8) is around it.
+- July and August 2026 have the fewest wake ups, but November 2025 and January 2026 are about as low, so there is no clear seasonal pattern in wake ups either.
+
+The hypothesis of worse sleep in summer is not supported. June 2026 has the lowest score (76.9), but July (84.9) and August (83.2) are among the highest. With only one year of data every season appears once, so the season can't be separated from other things that changed at the same time, like vacation in December and January or not working since July 2026.
 
 ### Does going to bed early result in a better sleep?
 
@@ -130,6 +160,7 @@ Going to bed early does not by itself give a better sleep, but going to bed late
 - My best nights start between 22:30 and 23:30. Going to bed earlier than that gives longer nights, but with more wake ups per hour.
 - A bedtime after 00:30 lowers the score sharply (mean 67.8 vs 82.6–85.9 in the other groups), mostly because I sleep less and because those bedtimes are irregular for me.
 - Bedtime doesn't change how much of the night is deep or REM sleep.
+- A consistent bedtime (within 30 minutes of my usual one) goes with slightly longer sleep (8.0 against 7.6 hours), but not with fewer wake ups or more deep and REM sleep. Most of its effect on the score comes from the bedtime points, which reward consistency directly.
 
 The hypothesis that going to bed later results in better sleep is not supported. The month-level comparison (months with more late bedtimes seeming to score higher) doesn't hold when looking at individual nights. These are correlations, not causes: late nights can have their own reasons (going out, stress, vacation) that also affect how I sleep.
 
@@ -146,7 +177,16 @@ There is a clear pattern in _when_ I wake up, but not in _which day_.
 
 **Recommendation:** since the first hours of the night have the most wake ups, the habits right before bed are the most likely place to look. The watch data can't show the cause, so a next step is to keep a simple log of evening habits (for example caffeine, alcohol, late meals or room temperature) and compare it with the number of wake ups in the first third of the night.
 
+### Which part of the sleep score pulls it down?
+
+Interruptions. They are the biggest loss on 79% of the nights, and on an average night I lose more than half of the 20 interruption points. Duration and bedtime consistency only become the main problem on unusual nights, like very late bedtimes. This matches the problem statement: wake ups are where the most points are lost, so reducing them is where there is the most to gain.
+
 ## 9. Limitations
 
 - The data can't uncover causations for bad sleeping scores.
 - Wake ups are what the watch detects; awake periods shorter than 1 minute are not counted, and the watch can't tell why I woke up.
+- Only one year of data: every season and month appears once, so seasonal differences can't be separated from one-off events.
+- Other changes overlap with the things I compared. I had a lot of vacation in December 2025 and January 2026, and I haven't been working since July 2026; both changed my bedtime and when I could sleep in.
+- 12 calendar nights are missing from the export, 2 nights were dropped for missing values, and 6 nights with an afternoon bedtime were left out of the bedtime and wake up analyses.
+- `est_score` is an estimated score, and sleep stages and wake ups measured by a watch are less accurate than a sleep lab measurement.
+- The data comes from one person, so the findings describe my sleep and don't generalise to other people.
