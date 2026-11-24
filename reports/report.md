@@ -33,7 +33,9 @@ This analysis is a personal project, to help me understand better my sleeping ha
 - Dropped rows where interruption_pts and wake_ups are missing (2 rows).
 - Converted night, bedtime (former bedtime_x) and wake_time to datetime formats.
 - Converted wake_ups to integer (it was stored as float because of missing values).
-- For the bedtime analysis, left out 6 nights with a bedtime in the afternoon (13:12–15:34). These nights have 7–11 hours asleep, so the recorded bedtime is most likely the start of an afternoon nap that got merged into the night.
+- For the bedtime and wake up analyses, left out 6 nights with a bedtime in the afternoon (13:12–15:34). These nights have 7–11 hours asleep, so the recorded bedtime is most likely the start of an afternoon nap that got merged into the night.
+- For the sleep records (used for the wake up analysis), kept only the sleep stage rows (`SleepAnalysis`, 16,249 of 17,075), dropped the type, unit and source columns, renamed value to stage, and converted night, start and end to datetime formats.
+- A wake up is an `Awake` record of at least 1 minute. Counting these per night gives exactly the `wake_ups` column on every night.
 
 ## 7. Analysis
 
@@ -91,6 +93,34 @@ Later bedtimes come with fewer wake ups in total (r = −0.24), but mostly becau
 
 ![Time Asleep by Bedtime](../visualizations/time-asleep-by-bedtime.png)
 
+### Are there patterns in wake ups during the night?
+
+To answer this question, I used the individual sleep records, where every wake up has its own start time and duration (3,317 wake ups over 409 nights). I looked at three things:
+
+1. In which part of the night I wake up
+2. How long the wake ups last
+3. Wake ups by day of the week
+
+#### Wake Ups by Part of the Night
+
+Counting wake ups per clock hour would be misleading, because I'm asleep at some hours (like 03:00) on almost every night and at others (like 22:00) only on some. Instead, I placed every wake up on a scale from bedtime to wake time and split each night into equal parts, so that every night counts the same in each part.
+
+I wake up most in the first third of the night: 3.4 times on average, against 2.5 in the middle third and 2.2 in the last third. The peak is at 10–20% of the night (1.19 wake ups per night), which for a typical night of about 8 hours in bed is roughly 50 to 100 minutes after going to bed. After the middle of the night the wake ups become less frequent, with the lowest point at 70–80% (0.56), and they go up again in the last tenth (0.82), just before waking up for the day.
+
+![Wake Ups by Part of the Night](../visualizations/wake-ups-by-part-of-the-night.png)
+
+#### Wake Ups by Duration
+
+Almost all wake ups are short: half of them last 1–2 minutes and 93% are over within 5 minutes. Only 44 of 3,317 (1.3%) last 15 minutes or longer.
+
+The early-night peak is made up of these short wake ups. The longer ones are spread differently: wake ups of 5–15 minutes are most common in the last third of the night (80, against 57 in the first and 59 in the middle third), and those of 15+ minutes in the middle third (24, against 13 and 7). So early in the night I wake up often but briefly, while later in the night I wake up less often but more of the wake ups are long.
+
+![Wake Ups by Duration](../visualizations/wake-ups-by-duration.png)
+
+#### Wake Ups by Day of the Week
+
+Saturday nights have the fewest wake ups (7.5 on average, 0.94 per hour asleep) and Monday nights the most (8.6, 1.11 per hour). The difference between the best and worst day is only about 1 wake up, while within each day the number varies by 3 to 4 from night to night (standard deviation), with around 58 nights per day. This difference is too small to call a pattern.
+
 ## 8. Conclusions and Recommendations
 
 ### Does going to bed early result in a better sleep?
@@ -105,6 +135,18 @@ The hypothesis that going to bed later results in better sleep is not supported.
 
 **Recommendation:** aim for a bedtime between 22:30 and 23:30, and avoid going to bed after 00:30.
 
+### Are there patterns in wake ups during the night?
+
+There is a clear pattern in _when_ I wake up, but not in _which day_.
+
+- I wake up most early in the night: 3.4 times on average in the first third, against 2.5 in the middle and 2.2 in the last third. The peak is roughly 50 to 100 minutes after going to bed.
+- These early wake ups are mostly short. Almost all wake ups (93%) last less than 5 minutes; the longer ones (5+ minutes) are more common in the middle and last part of the night.
+- There are slightly more wake ups just before the final wake up in the morning.
+- The day of the week makes little difference.
+
+**Recommendation:** since the first hours of the night have the most wake ups, the habits right before bed are the most likely place to look. The watch data can't show the cause, so a next step is to keep a simple log of evening habits (for example caffeine, alcohol, late meals or room temperature) and compare it with the number of wake ups in the first third of the night.
+
 ## 9. Limitations
 
 - The data can't uncover causations for bad sleeping scores.
+- Wake ups are what the watch detects; awake periods shorter than 1 minute are not counted, and the watch can't tell why I woke up.
